@@ -25,12 +25,20 @@
   "keywords": [
     "compute.io",
     "compute",
-    "computation"
+    "computation",
+    "mathematics",
+    "math",
+    "least common multiple",
+    "lcm",
+    "discrete",
+    "arithmetic"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/lcm/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "validate.io-integer": "^1.0.2"
+  },
   "devDependencies": {
     "chai": "1.x.x",
     "mocha": "1.x.x",

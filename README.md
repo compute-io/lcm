@@ -1,4 +1,4 @@
-lcm
+Least Common Multiple
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
@@ -19,19 +19,41 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 To use the module,
 
 ``` javascript
-var foo = require( 'compute-lcm' );
+var lcm = require( 'compute-lcm' );
 ```
 
-#### foo( arr )
+#### lcm( arr )
 
-What does this function do?
+Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm) of two or more `integers`. 
+
+``` javascript
+var val = lcm( [21, 6] );
+// returns 42
+
+var val = gcd( [21, 6, 126] );
+// returns 126
+```
+
+If provided an empty `array`, returns `null`.
 
 
 ## Examples
 
 ``` javascript
-var foo = require( 'compute-lcm' );
+var lcm = require( 'compute-lcm' );
+
+// Compute the lcm of random tuples...
+var x, y, z, arr, val;
+for ( var i = 0; i < 100; i++ ) {
+	x = Math.round( Math.random()*50 );
+	y = Math.round( Math.random()*50 );
+	z = Math.round( Math.random()*50 );
+	arr = [ x, y, z ];
+	val = lcm( arr );
+	console.log( arr, val );
+}
 ```
+
 
 To run the example code from the top-level application directory,
 
