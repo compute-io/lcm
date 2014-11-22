@@ -1,6 +1,6 @@
 {
   "name": "compute-lcm",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Computes the least common multiple (lcm).",
   "author": {
     "name": "Athan Reines",
