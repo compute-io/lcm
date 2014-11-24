@@ -2,7 +2,9 @@ Least Common Multiple
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> Computes the least common multiple (lcm).
+> Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm).
+
+Note: the lcm is also known as the __lowest common multiple__ or __smallest common multiple__ and finds common use in calculating the __lowest common denominator__ (lcd).
 
 
 ## Installation
