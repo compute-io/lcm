@@ -1,3 +1,4 @@
+/* global require, describe, it */
 'use strict';
 
 // MODULES //
@@ -23,25 +24,47 @@ describe( 'compute-lcm', function tests() {
 		expect( lcm ).to.be.a( 'function' );
 	});
 
-	it( 'should throw an error if not provided an array', function test() {
-		var values = [
-			'5',
-			5,
-			null,
-			undefined,
-			NaN,
-			{},
-			function(){}
-		];
+	it( 'should throw an error if not provided an integer array', function test() {
+			var values = [
+				'5',
+				5,
+				null,
+				undefined,
+				NaN,
+				{},
+				function(){},
+				[ Math.PI, 2 ],
+				[ '1', 2 ],
+				[ 1, Math.PI ],
+				[ 1, '2' ],
+				[ 1, NaN ],
+				[ 1, null ]
+			];
 
-		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue( values[i] ) ).to.throw( TypeError );
+			for ( var i = 0; i < values.length; i++ ) {
+				expect( badValue( values[i] ) ).to.throw( TypeError );
+			}
+
+			function badValue( value ) {
+				return function() {
+					lcm( value );
+				};
+			}
+		});
+
+	it( 'should throw an error if an accessed value is not an integer', function test() {
+		expect( badValue ).to.throw( TypeError );
+
+		function badValue() {
+			var arr = [
+				{'x':Math.PI},
+				{'x':5}
+			];
+
+			lcm( arr, getValue );
 		}
-
-		function badValue( value ) {
-			return function() {
-				lcm( value );
-			};
+		function getValue( d ) {
+			return d.x;
 		}
 	});
 
@@ -73,8 +96,31 @@ describe( 'compute-lcm', function tests() {
 		}
 	});
 
-	it( 'should return null is provided an empty array', function test() {
-		assert.isNull( lcm([]) );
+	it( 'should throw an error if provided an accessor which is not a function', function test() {
+		var values = [
+			'5',
+			5,
+			true,
+			undefined,
+			null,
+			NaN,
+			[],
+			{}
+		];
+
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[ i ] ) ).to.throw( TypeError );
+		}
+		function badValue( value ) {
+			return function() {
+				lcm( [ 1, 2 ], value );
+			};
+		}
+	});
+
+	it( 'should return null if provided a array having fewer than 2 elements', function test() {
+		assert.isNull( lcm( [] ) );
+		assert.isNull( lcm( [ 1 ] ) );
 	});
 
 	it( 'should compute the lcm', function test() {
@@ -124,6 +170,40 @@ describe( 'compute-lcm', function tests() {
 
 		data = [ 1500, 750, 150000, 625 ];
 		assert.strictEqual( lcm( data ), 150000 );
+	});
+
+	it( 'should compute the lcm using an accessor function', function test() {
+
+		var data;
+
+		data = [
+			{'x':0},
+			{'x':0}
+		];
+		assert.strictEqual( lcm( data, getValue ), 0 );
+
+		data = [
+			{'x':1},
+			{'x':0}
+		];
+		assert.strictEqual( lcm( data, getValue ), 0 );
+
+		data = [
+			{'x':-6},
+			{'x':-4}
+		];
+		assert.strictEqual( lcm( data, getValue ), 12 );
+
+		data = [
+			{'x':95},
+			{'x':-35},
+			{'x':25}
+		];
+		assert.strictEqual( lcm( data, getValue ), 3325 );
+
+		function getValue( d ) {
+			return d.x;
+		}
 	});
 
 });
