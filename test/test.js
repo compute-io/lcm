@@ -25,56 +25,43 @@ describe( 'compute-lcm', function tests() {
 	});
 
 	it( 'should throw an error if not provided an integer array', function test() {
-			var values = [
-				'5',
-				5,
-				null,
-				undefined,
-				NaN,
-				{},
-				function(){},
-				[ Math.PI, 2 ],
-				[ '1', 2 ],
-				[ 1, Math.PI ],
-				[ 1, '2' ],
-				[ 1, NaN ],
-				[ 1, null ]
-			];
-
-			for ( var i = 0; i < values.length; i++ ) {
-				expect( badValue( values[i] ) ).to.throw( TypeError );
-			}
-
-			function badValue( value ) {
-				return function() {
-					lcm( value );
-				};
-			}
-		});
-
-	it( 'should throw an error if an accessed value is not an integer', function test() {
-		expect( badValue ).to.throw( TypeError );
-
-		function badValue() {
-			var arr = [
-				{'x':Math.PI},
-				{'x':5}
-			];
-
-			lcm( arr, getValue );
-		}
-		function getValue( d ) {
-			return d.x;
-		}
-	});
-
-	it( 'should throw an error if not provided an array of integers', function test() {
 		var values = [
 			'5',
-			5.245,
+			5,
 			null,
 			undefined,
 			NaN,
+			{},
+			function(){},
+			[ Math.PI, 2 ],
+			[ '1', 2 ],
+			[ 1, Math.PI ],
+			[ 1, '2' ],
+			[ 1, NaN ],
+			[ 1, null ],
+			[ [], 1 ],
+			[ {}, 1 ],
+			[ null, 1 ]
+		];
+
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[i] ) ).to.throw( TypeError );
+		}
+		function badValue( value ) {
+			return function() {
+				lcm( value );
+			};
+		}
+	});
+
+	it( 'should throw an error if an accessed value is not an integer', function test() {
+		var values = [
+			'5',
+			Math.PI,
+			null,
+			undefined,
+			NaN,
+			[],
 			{},
 			function(){}
 		];
@@ -83,16 +70,18 @@ describe( 'compute-lcm', function tests() {
 			expect( badValue1( values[i] ) ).to.throw( TypeError );
 			expect( badValue2( values[i] ) ).to.throw( TypeError );
 		}
-
 		function badValue1( value ) {
 			return function() {
-				lcm( [ value, 4 ] );
+				lcm( [ value, 1 ], getValue );
 			};
 		}
 		function badValue2( value ) {
 			return function() {
-				lcm( [ 4, value ] );
+				lcm( [ 1, value ], getValue );
 			};
+		}
+		function getValue( d ) {
+			return d;
 		}
 	});
 
@@ -173,7 +162,6 @@ describe( 'compute-lcm', function tests() {
 	});
 
 	it( 'should compute the lcm using an accessor function', function test() {
-
 		var data;
 
 		data = [

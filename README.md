@@ -4,7 +4,7 @@ Least Common Multiple
 
 > Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm).
 
-Note: the lcm is also known as the __lowest common multiple__ or __smallest common multiple__ and finds common use in calculating the __lowest common denominator__ (lcd).
+__Note__: the lcm is also known as the __lowest common multiple__ or __smallest common multiple__ and finds common use in calculating the __lowest common denominator__ (lcd).
 
 
 ## Installation
@@ -35,7 +35,7 @@ var val = lcm( [21, 6, 126] );
 // returns 126
 ```
 
-For object `arrays`, provide an accessor `function` for accessing `array` values
+For object `arrays`, provide an accessor `function` for accessing `array` values.
 
 ``` javascript
 var data = [
@@ -56,6 +56,7 @@ var arr = lcm( arr, getValue );
 ## Notes
 
 - If provided an `array` with a length less than `2`, the function returns `null`.
+
 
 ## Examples
 
