@@ -27,7 +27,6 @@ describe( 'compute-lcm', function tests() {
 	it( 'should throw an error if not provided an integer array', function test() {
 		var values = [
 			'5',
-			5,
 			null,
 			undefined,
 			NaN,
@@ -55,30 +54,15 @@ describe( 'compute-lcm', function tests() {
 	});
 
 	it( 'should throw an error if an accessed value is not an integer', function test() {
-		var values = [
-			'5',
-			Math.PI,
-			null,
-			undefined,
-			NaN,
-			[],
-			{},
-			function(){}
-		];
+		expect( badValue ).to.throw( TypeError );
 
-		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue1( values[i] ) ).to.throw( TypeError );
-			expect( badValue2( values[i] ) ).to.throw( TypeError );
-		}
-		function badValue1( value ) {
-			return function() {
-				lcm( [ value, 1 ], getValue );
-			};
-		}
-		function badValue2( value ) {
-			return function() {
-				lcm( [ 1, value ], getValue );
-			};
+		function badValue() {
+			var arr = [
+				Math.PI,
+				1
+			];
+
+			lcm( arr, getValue );
 		}
 		function getValue( d ) {
 			return d;
@@ -105,6 +89,15 @@ describe( 'compute-lcm', function tests() {
 				lcm( [ 1, 2 ], value );
 			};
 		}
+	});
+
+	it( 'should return null if only provided less than 2 integer arguments', function test() {
+		assert.isNull( lcm( 5 ) );
+	});
+
+	it( 'should return 0 if provided two integers which are equal to 0', function test() {
+		assert.strictEqual( lcm( 0, 0 ), 0 );
+		assert.strictEqual( lcm( [0,0]), 0 );
 	});
 
 	it( 'should return null if provided a array having fewer than 2 elements', function test() {
@@ -159,6 +152,18 @@ describe( 'compute-lcm', function tests() {
 
 		data = [ 1500, 750, 150000, 625 ];
 		assert.strictEqual( lcm( data ), 150000 );
+	});
+
+	it( 'should support an interface for providing two integers', function test() {
+		assert.strictEqual( lcm( 6, -4 ), 12 );
+
+		assert.strictEqual( lcm( -6, -4 ), 12 );
+
+		assert.strictEqual( lcm( 2, 8 ), 8 );
+	});
+
+	it( 'should provide a variadic interface', function test() {
+		assert.strictEqual( lcm( 95, -35, 25 ), 3325 );
 	});
 
 	it( 'should compute the lcm using an accessor function', function test() {

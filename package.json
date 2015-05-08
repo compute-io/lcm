@@ -39,15 +39,20 @@
     "lcm",
     "lcd",
     "discrete",
-    "arithmetic"
+    "arithmetic",
+    "array",
+    "integer",
+    "gcd",
+    "euclid"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/lcm/issues"
   },
   "dependencies": {
+    "compute-gcd": "^1.2.0",
     "validate.io-array": "^1.0.3",
     "validate.io-function": "^1.0.2",
-    "validate.io-integer": "^1.0.2"
+    "validate.io-integer-array": "^1.0.0"
   },
   "devDependencies": {
     "chai": "2.x.x",

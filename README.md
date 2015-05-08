@@ -18,10 +18,23 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 
 ## Usage
 
-
 ``` javascript
 var lcm = require( 'compute-lcm' );
 ```
+
+
+#### lcm( a, b[, c,...,n] )
+
+Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm) of two or more `integers`.
+
+``` javascript
+var val = lcm( 21, 6 );
+// returns 42
+
+var val = lcm( 21, 6, 126 );
+// returns 126
+```
+
 
 #### lcm( arr[, clbk] )
 
@@ -55,7 +68,7 @@ var arr = lcm( arr, getValue );
 
 ## Notes
 
-- If provided an `array` with a length less than `2`, the function returns `null`.
+- If provided a single `integer` argument or an `array` with a length less than `2`, the function returns `null`.
 
 
 ## Examples
