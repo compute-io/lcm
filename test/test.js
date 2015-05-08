@@ -1,3 +1,4 @@
+/* global require, describe, it */
 'use strict';
 
 // MODULES //
@@ -23,21 +24,28 @@ describe( 'compute-lcm', function tests() {
 		expect( lcm ).to.be.a( 'function' );
 	});
 
-	it( 'should throw an error if not provided an array', function test() {
+	it( 'should throw an error if not provided an integer array', function test() {
 		var values = [
 			'5',
-			5,
 			null,
 			undefined,
 			NaN,
 			{},
-			function(){}
+			function(){},
+			[ Math.PI, 2 ],
+			[ '1', 2 ],
+			[ 1, Math.PI ],
+			[ 1, '2' ],
+			[ 1, NaN ],
+			[ 1, null ],
+			[ [], 1 ],
+			[ {}, 1 ],
+			[ null, 1 ]
 		];
 
 		for ( var i = 0; i < values.length; i++ ) {
 			expect( badValue( values[i] ) ).to.throw( TypeError );
 		}
-
 		function badValue( value ) {
 			return function() {
 				lcm( value );
@@ -45,36 +53,56 @@ describe( 'compute-lcm', function tests() {
 		}
 	});
 
-	it( 'should throw an error if not provided an array of integers', function test() {
+	it( 'should throw an error if an accessed value is not an integer', function test() {
+		expect( badValue ).to.throw( TypeError );
+
+		function badValue() {
+			var arr = [
+				Math.PI,
+				1
+			];
+
+			lcm( arr, getValue );
+		}
+		function getValue( d ) {
+			return d;
+		}
+	});
+
+	it( 'should throw an error if provided an accessor which is not a function', function test() {
 		var values = [
 			'5',
-			5.245,
-			null,
+			5,
+			true,
 			undefined,
+			null,
 			NaN,
-			{},
-			function(){}
+			[],
+			{}
 		];
 
 		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue1( values[i] ) ).to.throw( TypeError );
-			expect( badValue2( values[i] ) ).to.throw( TypeError );
+			expect( badValue( values[ i ] ) ).to.throw( TypeError );
 		}
-
-		function badValue1( value ) {
+		function badValue( value ) {
 			return function() {
-				lcm( [ value, 4 ] );
-			};
-		}
-		function badValue2( value ) {
-			return function() {
-				lcm( [ 4, value ] );
+				lcm( [ 1, 2 ], value );
 			};
 		}
 	});
 
-	it( 'should return null is provided an empty array', function test() {
-		assert.isNull( lcm([]) );
+	it( 'should return null if only provided less than 2 integer arguments', function test() {
+		assert.isNull( lcm( 5 ) );
+	});
+
+	it( 'should return 0 if provided two integers which are equal to 0', function test() {
+		assert.strictEqual( lcm( 0, 0 ), 0 );
+		assert.strictEqual( lcm( [0,0]), 0 );
+	});
+
+	it( 'should return null if provided a array having fewer than 2 elements', function test() {
+		assert.isNull( lcm( [] ) );
+		assert.isNull( lcm( [ 1 ] ) );
 	});
 
 	it( 'should compute the lcm', function test() {
@@ -124,6 +152,51 @@ describe( 'compute-lcm', function tests() {
 
 		data = [ 1500, 750, 150000, 625 ];
 		assert.strictEqual( lcm( data ), 150000 );
+	});
+
+	it( 'should support an interface for providing two integers', function test() {
+		assert.strictEqual( lcm( 6, -4 ), 12 );
+
+		assert.strictEqual( lcm( -6, -4 ), 12 );
+
+		assert.strictEqual( lcm( 2, 8 ), 8 );
+	});
+
+	it( 'should provide a variadic interface', function test() {
+		assert.strictEqual( lcm( 95, -35, 25 ), 3325 );
+	});
+
+	it( 'should compute the lcm using an accessor function', function test() {
+		var data;
+
+		data = [
+			{'x':0},
+			{'x':0}
+		];
+		assert.strictEqual( lcm( data, getValue ), 0 );
+
+		data = [
+			{'x':1},
+			{'x':0}
+		];
+		assert.strictEqual( lcm( data, getValue ), 0 );
+
+		data = [
+			{'x':-6},
+			{'x':-4}
+		];
+		assert.strictEqual( lcm( data, getValue ), 12 );
+
+		data = [
+			{'x':95},
+			{'x':-35},
+			{'x':25}
+		];
+		assert.strictEqual( lcm( data, getValue ), 3325 );
+
+		function getValue( d ) {
+			return d.x;
+		}
 	});
 
 });

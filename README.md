@@ -4,7 +4,7 @@ Least Common Multiple
 
 > Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm).
 
-Note: the lcm is also known as the __lowest common multiple__ or __smallest common multiple__ and finds common use in calculating the __lowest common denominator__ (lcd).
+__Note__: the lcm is also known as the __lowest common multiple__ or __smallest common multiple__ and finds common use in calculating the __lowest common denominator__ (lcd).
 
 
 ## Installation
@@ -18,25 +18,57 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 
 ## Usage
 
-To use the module,
-
 ``` javascript
 var lcm = require( 'compute-lcm' );
 ```
 
-#### lcm( arr )
 
-Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm) of two or more `integers`. 
+#### lcm( a, b[, c,...,n] )
+
+Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm) of two or more `integers`.
+
+``` javascript
+var val = lcm( 21, 6 );
+// returns 42
+
+var val = lcm( 21, 6, 126 );
+// returns 126
+```
+
+
+#### lcm( arr[, clbk] )
+
+Computes the [least common multiple](http://en.wikipedia.org/wiki/Least_common_multiple) (lcm) of two or more `integers`.
 
 ``` javascript
 var val = lcm( [21, 6] );
 // returns 42
 
-var val = gcd( [21, 6, 126] );
+var val = lcm( [21, 6, 126] );
 // returns 126
 ```
 
-If provided an empty `array`, returns `null`.
+For object `arrays`, provide an accessor `function` for accessing `array` values.
+
+``` javascript
+var data = [
+	['beep', 4],
+	['boop', 8],
+	['bap', 12],
+	['baz', 16]
+];
+
+function getValue( d, i ) {
+	return d[ 1 ];
+}
+
+var arr = lcm( arr, getValue );
+// returns 48
+```
+
+## Notes
+
+- If provided a single `integer` argument or an `array` with a length less than `2`, the function returns `null`.
 
 
 ## Examples
@@ -68,7 +100,7 @@ $ node ./examples/index.js
 
 ### Unit
 
-Unit tests use the [Mocha](http://visionmedia.github.io/mocha) test framework with [Chai](http://chaijs.com) assertions. To run the tests, execute the following command in the top-level application directory:
+Unit tests use the [Mocha](http://mochajs.org) test framework with [Chai](http://chaijs.com) assertions. To run the tests, execute the following command in the top-level application directory:
 
 ``` bash
 $ make test
@@ -92,15 +124,15 @@ $ make view-cov
 ```
 
 
+---
 ## License
 
-[MIT license](http://opensource.org/licenses/MIT). 
+[MIT license](http://opensource.org/licenses/MIT).
 
 
----
 ## Copyright
 
-Copyright &copy; 2014. Athan Reines.
+Copyright &copy; 2014-2015. Athan Reines.
 
 
 [npm-image]: http://img.shields.io/npm/v/compute-lcm.svg
