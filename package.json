@@ -49,7 +49,7 @@
     "url": "https://github.com/compute-io/lcm/issues"
   },
   "dependencies": {
-    "compute-gcd": "^1.2.0",
+    "compute-gcd": "^1.2.1",
     "validate.io-array": "^1.0.3",
     "validate.io-function": "^1.0.2",
     "validate.io-integer-array": "^1.0.0"

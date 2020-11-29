@@ -152,6 +152,9 @@ describe( 'compute-lcm', function tests() {
 
 		data = [ 1500, 750, 150000, 625 ];
 		assert.strictEqual( lcm( data ), 150000 );
+
+		data = [ 186028, 193052, 144624 ];
+		assert.strictEqual( lcm( data ), 324618307124784 );
 	});
 
 	it( 'should support an interface for providing two integers', function test() {
